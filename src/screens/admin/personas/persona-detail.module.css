@@ -1,0 +1,48 @@
+.versions {
+  display: grid;
+  gap: 10px;
+}
+
+.versionCard {
+  position: relative;
+  border-radius: 14px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  padding: 14px;
+  overflow: hidden;
+}
+
+.ribbon {
+  position: absolute;
+  top: 12px;
+  right: -44px;
+  width: 140px;
+  padding: 6px 0;
+  transform: rotate(45deg);
+  text-align: center;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--color-bg);
+}
+
+.ribbonDraft {
+  background: #f6c70b;
+}
+.ribbonPublished {
+  background: #1dfb6a;
+}
+.ribbonArchived {
+  background: #afafaf;
+}
+
+.versionTitle {
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.promptPreview {
+  opacity: 0.82;
+  font-size: 13px;
+  line-height: 1.4;
+}
+

@@ -1,0 +1,18 @@
+.titleRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.hint {
+  opacity: 0.8;
+  font-size: 13px;
+}
+
