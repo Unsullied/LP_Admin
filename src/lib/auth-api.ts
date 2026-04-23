@@ -6,6 +6,12 @@ export type AuthedUser = {
   phoneE164: string;
   onboardingCompleted: boolean;
   isAdmin?: boolean;
+  firstName?: string | null;
+  nickname?: string | null;
+  dob?: string | null;
+  gender?: string | null;
+  fantasy?: string | null;
+  languageIds?: string[];
 };
 
 export async function requestOtp(phone: string): Promise<ApiResult<{ phoneE164: string; message: string }>> {
@@ -55,6 +61,14 @@ export async function verifyOtp(params: {
           phoneE164: String(userObj.phoneE164 || ''),
           onboardingCompleted: !!userObj.onboardingCompleted,
           isAdmin: !!userObj.isAdmin,
+          firstName: userObj.firstName != null ? String(userObj.firstName) : null,
+          nickname: userObj.nickname != null ? String(userObj.nickname) : null,
+          dob: userObj.dob != null ? String(userObj.dob) : null,
+          gender: userObj.gender != null ? String(userObj.gender) : null,
+          fantasy: userObj.fantasy != null ? String(userObj.fantasy) : null,
+          languageIds: Array.isArray(userObj.languageIds)
+            ? userObj.languageIds.map((x) => String(x)).filter(Boolean)
+            : [],
         },
       },
     };
@@ -81,6 +95,14 @@ export async function me(token: string): Promise<ApiResult<{ user: AuthedUser }>
           phoneE164: String(userObj.phoneE164 || ''),
           onboardingCompleted: !!userObj.onboardingCompleted,
           isAdmin: !!userObj.isAdmin,
+          firstName: userObj.firstName != null ? String(userObj.firstName) : null,
+          nickname: userObj.nickname != null ? String(userObj.nickname) : null,
+          dob: userObj.dob != null ? String(userObj.dob) : null,
+          gender: userObj.gender != null ? String(userObj.gender) : null,
+          fantasy: userObj.fantasy != null ? String(userObj.fantasy) : null,
+          languageIds: Array.isArray(userObj.languageIds)
+            ? userObj.languageIds.map((x) => String(x)).filter(Boolean)
+            : [],
         },
       },
     };
