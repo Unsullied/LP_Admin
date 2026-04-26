@@ -1,8 +1,8 @@
-'use client';
+'use client'
 
-import React from 'react';
+import React from 'react'
 
-import styles from './toggle.module.css';
+import styles from './toggle.module.css'
 
 export function Toggle({
   checked,
@@ -12,18 +12,21 @@ export function Toggle({
   className,
   id,
 }: {
-  checked: boolean;
-  onChange: (next: boolean) => void;
-  disabled?: boolean;
-  label?: string;
-  className?: string;
-  id?: string;
+  checked: boolean
+  onChange: (next: boolean) => void
+  disabled?: boolean
+  label?: string
+  className?: string
+  id?: string
 }) {
-  const autoId = React.useId();
-  const inputId = id ?? autoId;
+  const autoId = React.useId()
+  const inputId = id ?? autoId
 
   return (
-    <label className={[styles.root, disabled ? styles.disabled : '', className || ''].join(' ')} htmlFor={inputId}>
+    <label
+      className={[styles.root, disabled ? styles.disabled : '', className || ''].join(' ')}
+      htmlFor={inputId}
+    >
       {label ? <span className={styles.label}>{label}</span> : null}
       <span className={[styles.track, checked ? styles.on : styles.off].join(' ')}>
         <span className={styles.thumb} />
@@ -38,6 +41,5 @@ export function Toggle({
         aria-label={label || 'Toggle'}
       />
     </label>
-  );
+  )
 }
-

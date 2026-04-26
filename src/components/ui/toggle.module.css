@@ -26,7 +26,9 @@
   display: inline-flex;
   align-items: center;
   padding: 2px;
-  transition: background 120ms ease, border-color 120ms ease;
+  transition:
+    background 120ms ease,
+    border-color 120ms ease;
 }
 
 .on {
@@ -60,4 +62,3 @@
   width: 1px;
   height: 1px;
 }
-

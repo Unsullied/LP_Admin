@@ -1,6 +1,5 @@
-import LoginPage from '@/screens/login/LoginPage';
+import LoginPage from '@/screens/login/LoginPage'
 
 export default function LoginRoute() {
-  return <LoginPage />;
+  return <LoginPage />
 }
-

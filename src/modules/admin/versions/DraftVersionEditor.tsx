@@ -1,8 +1,9 @@
-import ui from '@/styles/ui.module.css';
-import { Button } from '@/components/ui/button';
-import { VersionAvatarPanel } from './VersionAvatarPanel';
-import type { PersonaVersion } from '@/lib/admin-api';
-import form from '@/styles/form.module.css';
+import { Button } from '@/components/ui/button'
+import type { PersonaVersion } from '@/lib/admin-api'
+import form from '@/styles/form.module.css'
+import ui from '@/styles/ui.module.css'
+
+import { VersionAvatarPanel } from './VersionAvatarPanel'
 
 export function DraftVersionEditor({
   token,
@@ -33,33 +34,33 @@ export function DraftVersionEditor({
   onAvatarSaved,
   onError,
 }: {
-  token: string;
-  version: PersonaVersion;
-  dirty: boolean;
-  saving: boolean;
-  deleting: boolean;
-  lastAutosaveIso: string | null;
-  draftLabel: string;
-  setDraftLabel: (s: string) => void;
-  displayName: string;
-  setDisplayName: (s: string) => void;
-  bio: string;
-  setBio: (s: string) => void;
-  viewersLabel: string;
-  setViewersLabel: (s: string) => void;
-  isOnline: boolean;
-  toggleIsOnline: () => void;
-  systemPrompt: string;
-  setSystemPrompt: (s: string) => void;
-  traitsInput: string;
-  setTraitsInput: (s: string) => void;
-  boundariesInput: string;
-  setBoundariesInput: (s: string) => void;
-  onSave: () => void;
-  onPublish: () => void;
-  onConfirmDelete: () => void;
-  onAvatarSaved: (v: PersonaVersion) => void;
-  onError: (msg: string | null) => void;
+  token: string
+  version: PersonaVersion
+  dirty: boolean
+  saving: boolean
+  deleting: boolean
+  lastAutosaveIso: string | null
+  draftLabel: string
+  setDraftLabel: (s: string) => void
+  displayName: string
+  setDisplayName: (s: string) => void
+  bio: string
+  setBio: (s: string) => void
+  viewersLabel: string
+  setViewersLabel: (s: string) => void
+  isOnline: boolean
+  toggleIsOnline: () => void
+  systemPrompt: string
+  setSystemPrompt: (s: string) => void
+  traitsInput: string
+  setTraitsInput: (s: string) => void
+  boundariesInput: string
+  setBoundariesInput: (s: string) => void
+  onSave: () => void
+  onPublish: () => void
+  onConfirmDelete: () => void
+  onAvatarSaved: (v: PersonaVersion) => void
+  onError: (msg: string | null) => void
 }) {
   return (
     <>
@@ -69,7 +70,9 @@ export function DraftVersionEditor({
             <div style={{ fontWeight: 900 }}>Draft editor</div>
             <div className={ui.muted}>
               {dirty ? 'Unsaved changes' : 'Up to date'}
-              {lastAutosaveIso ? ` · autosaved ${new Date(lastAutosaveIso).toLocaleTimeString()}` : ''}
+              {lastAutosaveIso
+                ? ` · autosaved ${new Date(lastAutosaveIso).toLocaleTimeString()}`
+                : ''}
             </div>
           </div>
           <div className={ui.btnRow}>
@@ -117,7 +120,13 @@ export function DraftVersionEditor({
           placeholder="Display name"
           onBlur={onSave}
         />
-        <input className={form.control} value={bio} onChange={(e) => setBio(e.target.value)} placeholder="Bio" onBlur={onSave} />
+        <input
+          className={form.control}
+          value={bio}
+          onChange={(e) => setBio(e.target.value)}
+          placeholder="Bio"
+          onBlur={onSave}
+        />
         <input
           className={form.control}
           value={viewersLabel}
@@ -151,6 +160,5 @@ export function DraftVersionEditor({
         />
       </div>
     </>
-  );
+  )
 }
-

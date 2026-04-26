@@ -1,9 +1,12 @@
-import ui from '@/styles/ui.module.css';
-import { Button } from '@/components/ui/button';
-import type { PersonaVersion } from '@/lib/admin-api';
+import { Button } from '@/components/ui/button'
+import type { PersonaVersion } from '@/lib/admin-api'
+import ui from '@/styles/ui.module.css'
 
 function toMultiline(items: string[] | null | undefined): string {
-  return (items ?? []).map((s) => String(s ?? '').trim()).filter(Boolean).join('\n');
+  return (items ?? [])
+    .map((s) => String(s ?? '').trim())
+    .filter(Boolean)
+    .join('\n')
 }
 
 export function ReadOnlyVersionViewer({
@@ -13,18 +16,18 @@ export function ReadOnlyVersionViewer({
   creatingDraft,
   onCreateOrOpenDraft,
 }: {
-  version: PersonaVersion;
-  existingDraftId: string | null;
-  checkingDraft: boolean;
-  creatingDraft: boolean;
-  onCreateOrOpenDraft: () => void;
+  version: PersonaVersion
+  existingDraftId: string | null
+  checkingDraft: boolean
+  creatingDraft: boolean
+  onCreateOrOpenDraft: () => void
 }) {
   const hint =
     version.status === 'published'
       ? 'Published versions are read-only. Create a draft to edit, then publish when ready.'
       : version.status === 'archived'
         ? 'Archived versions are read-only. Create a new draft to continue editing.'
-        : null;
+        : null
 
   return (
     <>
@@ -52,8 +55,8 @@ export function ReadOnlyVersionViewer({
               {version.displayName ?? `v${version.version}`}
             </div>
             <div className={ui.muted}>
-              {version.label ? `${version.label} · ` : ''}
-              v{version.version} · status: {version.status} · personaId: {version.personaId}
+              {version.label ? `${version.label} · ` : ''}v{version.version} · status:{' '}
+              {version.status} · personaId: {version.personaId}
             </div>
           </div>
           <span
@@ -65,14 +68,19 @@ export function ReadOnlyVersionViewer({
                   : version.status === 'archived'
                     ? 'rgba(148, 163, 184, 0.18)'
                     : 'rgba(226, 232, 240, 0.18)',
-              color: version.status === 'published' ? 'rgba(255,255,255,0.92)' : 'rgba(255,255,255,0.92)',
+              color:
+                version.status === 'published'
+                  ? 'rgba(255,255,255,0.92)'
+                  : 'rgba(255,255,255,0.92)',
             }}
           >
             {version.status.toUpperCase()}
           </span>
         </div>
 
-        {(version.avatarUrl || version.viewersLabel || version.bio) && <div className={ui.divider} />}
+        {(version.avatarUrl || version.viewersLabel || version.bio) && (
+          <div className={ui.divider} />
+        )}
 
         {version.avatarUrl ? (
           <div className={ui.avatarRow}>
@@ -133,7 +141,7 @@ export function ReadOnlyVersionViewer({
         <div className={ui.muted} style={{ whiteSpace: 'pre-wrap' }}>
           {toMultiline(version.hardBoundaries) || '—'}
         </div>
-{/* 
+        {/* 
         {version.exampleDialogue?.length ? (
           <>
             <div className={ui.divider} />
@@ -154,6 +162,5 @@ export function ReadOnlyVersionViewer({
         ) : null} */}
       </div>
     </>
-  );
+  )
 }
-

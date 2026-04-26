@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState } from 'react'
 
-import ui from '@/styles/ui.module.css';
-import { Button } from '@/components/ui/button';
-import { adminApi, type PersonaVersion } from '@/lib/admin-api';
+import { Button } from '@/components/ui/button'
+import { adminApi, type PersonaVersion } from '@/lib/admin-api'
+import ui from '@/styles/ui.module.css'
 
 export function VersionAvatarPanel({
   token,
@@ -11,36 +11,36 @@ export function VersionAvatarPanel({
   onAvatarSaved,
   onError,
 }: {
-  token: string;
-  version: PersonaVersion;
-  disabled?: boolean;
-  onAvatarSaved: (v: PersonaVersion) => void;
-  onError: (msg: string | null) => void;
+  token: string
+  version: PersonaVersion
+  disabled?: boolean
+  onAvatarSaved: (v: PersonaVersion) => void
+  onError: (msg: string | null) => void
 }) {
-  const [uploading, setUploading] = useState(false);
+  const [uploading, setUploading] = useState(false)
 
   async function onPickFile(file: File | null) {
-    if (!file) return;
-    setUploading(true);
-    onError(null);
+    if (!file) return
+    setUploading(true)
+    onError(null)
     try {
       const dataUrl = await new Promise<string>((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onerror = () => reject(new Error('Failed to read image'));
-        reader.onload = () => resolve(String(reader.result || ''));
-        reader.readAsDataURL(file);
-      });
+        const reader = new FileReader()
+        reader.onerror = () => reject(new Error('Failed to read image'))
+        reader.onload = () => resolve(String(reader.result || ''))
+        reader.readAsDataURL(file)
+      })
 
-      const res = await adminApi.uploadPersonaVersionAvatar(token, version.id, dataUrl);
+      const res = await adminApi.uploadPersonaVersionAvatar(token, version.id, dataUrl)
       if (!res.ok) {
-        onError(res.error.message);
-        return;
+        onError(res.error.message)
+        return
       }
-      onAvatarSaved(res.data.version);
+      onAvatarSaved(res.data.version)
     } catch (e) {
-      onError(e instanceof Error ? e.message : 'Upload failed');
+      onError(e instanceof Error ? e.message : 'Upload failed')
     } finally {
-      setUploading(false);
+      setUploading(false)
     }
   }
 
@@ -68,10 +68,11 @@ export function VersionAvatarPanel({
             style={{ display: 'none' }}
             onChange={(e) => void onPickFile(e.target.files?.[0] ?? null)}
           />
-          <Button disabled={disabled || uploading}>{uploading ? 'Uploading…' : 'Upload image'}</Button>
+          <Button disabled={disabled || uploading}>
+            {uploading ? 'Uploading…' : 'Upload image'}
+          </Button>
         </label>
       </div>
     </div>
-  );
+  )
 }
-

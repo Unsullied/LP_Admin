@@ -10,7 +10,8 @@
   align-items: center;
   justify-content: center;
   padding: var(--space-5);
-  background: radial-gradient(1200px 800px at 20% 0%, rgba(237, 147, 0, 0.18), transparent 45%),
+  background:
+    radial-gradient(1200px 800px at 20% 0%, rgba(237, 147, 0, 0.18), transparent 45%),
     var(--color-bg);
 }
 
@@ -127,4 +128,3 @@
   font-weight: 900;
   letter-spacing: 0.2px;
 }
-

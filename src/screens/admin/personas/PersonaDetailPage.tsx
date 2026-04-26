@@ -1,84 +1,85 @@
 /* eslint-disable react-hooks/set-state-in-effect */
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
-import styles from './persona-detail.module.css';
-import ui from '@/styles/ui.module.css';
-import { Button } from '@/components/ui/button';
-import { Toggle } from '@/components/ui/toggle';
-import { useAuth } from '@/contexts/auth-context';
-import { adminApi, type Persona, type PersonaVersion } from '@/lib/admin-api';
+import { Button } from '@/components/ui/button'
+import { Toggle } from '@/components/ui/toggle'
+import { useAuth } from '@/contexts/auth-context'
+import { adminApi, type Persona, type PersonaVersion } from '@/lib/admin-api'
+import ui from '@/styles/ui.module.css'
+
+import styles from './persona-detail.module.css'
 
 function ribbonClass(status: PersonaVersion['status']) {
-  if (status === 'draft') return [styles.ribbon, styles.ribbonDraft].join(' ');
-  if (status === 'published') return [styles.ribbon, styles.ribbonPublished].join(' ');
-  return [styles.ribbon, styles.ribbonArchived].join(' ');
+  if (status === 'draft') return [styles.ribbon, styles.ribbonDraft].join(' ')
+  if (status === 'published') return [styles.ribbon, styles.ribbonPublished].join(' ')
+  return [styles.ribbon, styles.ribbonArchived].join(' ')
 }
 
 function pickLatest(versions: PersonaVersion[]) {
-  const sorted = [...versions].sort((a, b) => b.version - a.version);
-  const published = sorted.find((v) => v.status === 'published') ?? null;
-  const draft = sorted.find((v) => v.status === 'draft') ?? null;
-  return { sorted, published, draft };
+  const sorted = [...versions].sort((a, b) => b.version - a.version)
+  const published = sorted.find((v) => v.status === 'published') ?? null
+  const draft = sorted.find((v) => v.status === 'draft') ?? null
+  return { sorted, published, draft }
 }
 
 export default function PersonaDetailPage() {
-  const router = useRouter();
-  const { token } = useAuth();
-  const personaId = typeof router.query.id === 'string' ? router.query.id : '';
+  const router = useRouter()
+  const { token } = useAuth()
+  const personaId = typeof router.query.id === 'string' ? router.query.id : ''
 
-  const [loading, setLoading] = useState(true);
-  const [persona, setPersona] = useState<Persona | null>(null);
-  const [versions, setVersions] = useState<PersonaVersion[]>([]);
-  const [error, setError] = useState<string | null>(null);
-  const [togglingVisible, setTogglingVisible] = useState(false);
+  const [loading, setLoading] = useState(true)
+  const [persona, setPersona] = useState<Persona | null>(null)
+  const [versions, setVersions] = useState<PersonaVersion[]>([])
+  const [error, setError] = useState<string | null>(null)
+  const [togglingVisible, setTogglingVisible] = useState(false)
 
-  const meta = useMemo(() => pickLatest(versions), [versions]);
+  const meta = useMemo(() => pickLatest(versions), [versions])
 
   const refresh = useCallback(async () => {
-    if (!token || !personaId) return;
-    setLoading(true);
-    setError(null);
-    const res = await adminApi.getPersona(token, personaId);
+    if (!token || !personaId) return
+    setLoading(true)
+    setError(null)
+    const res = await adminApi.getPersona(token, personaId)
     if (!res.ok) {
-      setError(res.error.message);
-      setPersona(null);
-      setVersions([]);
+      setError(res.error.message)
+      setPersona(null)
+      setVersions([])
     } else {
-      setPersona(res.data.persona);
-      setVersions(res.data.versions);
+      setPersona(res.data.persona)
+      setVersions(res.data.versions)
     }
-    setLoading(false);
-  }, [personaId, token]);
+    setLoading(false)
+  }, [personaId, token])
 
   useEffect(() => {
-    void refresh();
-  }, [refresh]);
+    void refresh()
+  }, [refresh])
 
   async function createDraft() {
-    if (!token || !personaId) return;
-    const res = await adminApi.createDraftVersion(token, personaId);
+    if (!token || !personaId) return
+    const res = await adminApi.createDraftVersion(token, personaId)
     if (!res.ok) {
-      setError(res.error.message);
-      return;
+      setError(res.error.message)
+      return
     }
-    await refresh();
+    await refresh()
   }
 
   async function toggleVisible() {
-    if (!token || !personaId || !persona) return;
-    if (togglingVisible) return;
-    setError(null);
-    setTogglingVisible(true);
-    const next = !(persona.visible ?? true);
-    const res = await adminApi.updatePersonaVisibility(token, personaId, next);
-    setTogglingVisible(false);
+    if (!token || !personaId || !persona) return
+    if (togglingVisible) return
+    setError(null)
+    setTogglingVisible(true)
+    const next = !(persona.visible ?? true)
+    const res = await adminApi.updatePersonaVisibility(token, personaId, next)
+    setTogglingVisible(false)
     if (!res.ok) {
-      setError(res.error.message);
-      return;
+      setError(res.error.message)
+      return
     }
-    setPersona((p) => (p ? { ...p, visible: res.data.persona.visible } : p));
+    setPersona((p) => (p ? { ...p, visible: res.data.persona.visible } : p))
   }
 
   return (
@@ -91,7 +92,10 @@ export default function PersonaDetailPage() {
         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
           <Button onClick={() => router.push('/admin')}>Back</Button>
           {meta.draft ? (
-            <Button variant="primary" onClick={() => router.push(`/admin/versions/${meta.draft!.id}`)}>
+            <Button
+              variant="primary"
+              onClick={() => router.push(`/admin/versions/${meta.draft!.id}`)}
+            >
               Open draft
             </Button>
           ) : (
@@ -113,7 +117,8 @@ export default function PersonaDetailPage() {
                 <div>
                   <div style={{ fontWeight: 800 }}>Visibility</div>
                   <div className={ui.muted}>
-                    If hidden, this persona won’t be returned by the chat personas API and won’t show up in the client.
+                    If hidden, this persona won’t be returned by the chat personas API and won’t
+                    show up in the client.
                   </div>
                 </div>
                 <Toggle
@@ -133,7 +138,11 @@ export default function PersonaDetailPage() {
               {meta.sorted.map((v) => (
                 <Link key={v.id} className={styles.versionCard} href={`/admin/versions/${v.id}`}>
                   <div className={ribbonClass(v.status)}>
-                    {v.status === 'draft' ? 'DRAFT' : v.status === 'published' ? 'PUBLISHED' : 'ARCHIVED'}
+                    {v.status === 'draft'
+                      ? 'DRAFT'
+                      : v.status === 'published'
+                        ? 'PUBLISHED'
+                        : 'ARCHIVED'}
                   </div>
                   <div className={styles.versionTitle}>
                     {v.status === 'draft' && v.label ? v.label : `v${v.version} · ${v.status}`}
@@ -156,6 +165,5 @@ export default function PersonaDetailPage() {
         )}
       </div>
     </div>
-  );
+  )
 }
-
