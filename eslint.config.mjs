@@ -28,6 +28,8 @@ const eslintConfig = defineConfig([
     rules: {
       'simple-import-sort/imports': 'warn',
       'simple-import-sort/exports': 'warn',
+      // Prefer arrow/function expressions over `function foo() {}` declarations.
+      'func-style': ['warn', 'expression'],
     },
   },
 ])
