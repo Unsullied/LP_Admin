@@ -7,7 +7,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Toggle } from '@/components/ui/toggle'
 import { useAuth } from '@/contexts/auth-context'
-import { adminApi} from '@/lib/admin-api'
+import { adminApi } from '@/lib/admin-api'
 import ui from '@/styles/ui.module.css'
 import { Persona, PersonaVersion } from '@/types/admin'
 
