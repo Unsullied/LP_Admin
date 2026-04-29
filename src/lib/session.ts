@@ -1,6 +1,6 @@
 const KEY = 'lp.sessionToken'
 
-export function getSessionToken(): string | null {
+export const getSessionToken = (): string | null => {
   if (typeof window === 'undefined') return null
   try {
     return window.localStorage.getItem(KEY)
@@ -9,14 +9,14 @@ export function getSessionToken(): string | null {
   }
 }
 
-export function setSessionToken(token: string): void {
+export const setSessionToken = (token: string): void => {
   if (typeof window === 'undefined') return
   try {
     window.localStorage.setItem(KEY, token)
   } catch {}
 }
 
-export function clearSessionToken(): void {
+export const clearSessionToken = (): void => {
   if (typeof window === 'undefined') return
   try {
     window.localStorage.removeItem(KEY)

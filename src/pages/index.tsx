@@ -1,8 +1,9 @@
 import Link from 'next/link'
+import type React from 'react'
 
 import styles from '@/styles/home.module.css'
 
-export default function HomePage() {
+const HomePage: React.FC = () => {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
@@ -23,3 +24,5 @@ export default function HomePage() {
     </div>
   )
 }
+
+export default HomePage

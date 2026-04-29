@@ -1,13 +1,15 @@
+import type React from 'react'
 import { useMemo, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
-import { adminApi, type CreatePersonaInput } from '@/lib/admin-api'
+import { adminApi } from '@/lib/admin-api'
 import form from '@/styles/form.module.css'
 import ui from '@/styles/ui.module.css'
+import type { CreatePersonaInput } from '@/types/admin'
 
 import styles from './create-persona-modal.module.css'
 
-function parseLines(s: string): string[] {
+const parseLines = (s: string): string[] => {
   return s
     .split('\n')
     .map((x) => x.trim())
@@ -21,12 +23,12 @@ export type CreatePersonaModalProps = {
   onCreated: (args: { versionId: string }) => void
 }
 
-export function CreatePersonaModal({
+export const CreatePersonaModal: React.FC<CreatePersonaModalProps> = ({
   token,
   visible,
   onClose,
   onCreated,
-}: CreatePersonaModalProps) {
+}) => {
   const [creating, setCreating] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -58,7 +60,7 @@ export function CreatePersonaModal({
     )
   }, [bio, boundariesInput, displayName, isOnline, systemPrompt, traitsInput, viewersLabel])
 
-  async function createPersona() {
+  const createPersona = async () => {
     if (creating) return
     setError(null)
 

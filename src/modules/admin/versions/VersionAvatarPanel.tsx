@@ -1,25 +1,29 @@
+import type React from 'react'
 import { useState } from 'react'
 
 import { Button } from '@/components/ui/button'
-import { adminApi, type PersonaVersion } from '@/lib/admin-api'
+import { adminApi } from '@/lib/admin-api'
 import ui from '@/styles/ui.module.css'
+import { PersonaVersion } from '@/types/admin'
 
-export function VersionAvatarPanel({
-  token,
-  version,
-  disabled,
-  onAvatarSaved,
-  onError,
-}: {
+type VersionAvatarPanelProps = {
   token: string
   version: PersonaVersion
   disabled?: boolean
   onAvatarSaved: (v: PersonaVersion) => void
   onError: (msg: string | null) => void
-}) {
+}
+
+export const VersionAvatarPanel: React.FC<VersionAvatarPanelProps> = ({
+  token,
+  version,
+  disabled,
+  onAvatarSaved,
+  onError,
+}) => {
   const [uploading, setUploading] = useState(false)
 
-  async function onPickFile(file: File | null) {
+  const onPickFile = async (file: File | null) => {
     if (!file) return
     setUploading(true)
     onError(null)

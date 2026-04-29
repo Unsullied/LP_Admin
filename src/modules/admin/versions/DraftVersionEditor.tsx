@@ -1,11 +1,11 @@
 import { Button } from '@/components/ui/button'
-import type { PersonaVersion } from '@/lib/admin-api'
 import form from '@/styles/form.module.css'
 import ui from '@/styles/ui.module.css'
+import type { PersonaVersion } from '@/types/admin'
 
 import { VersionAvatarPanel } from './VersionAvatarPanel'
 
-export function DraftVersionEditor({
+export const DraftVersionEditor = ({
   token,
   version,
   dirty,
@@ -61,7 +61,7 @@ export function DraftVersionEditor({
   onConfirmDelete: () => void
   onAvatarSaved: (v: PersonaVersion) => void
   onError: (msg: string | null) => void
-}) {
+}) => {
   return (
     <>
       <div className={ui.card}>

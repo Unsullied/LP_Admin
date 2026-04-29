@@ -1,30 +1,32 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import type React from 'react'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { Toggle } from '@/components/ui/toggle'
 import { useAuth } from '@/contexts/auth-context'
-import { adminApi, type Persona, type PersonaVersion } from '@/lib/admin-api'
+import { adminApi} from '@/lib/admin-api'
 import ui from '@/styles/ui.module.css'
+import { Persona, PersonaVersion } from '@/types/admin'
 
 import styles from './persona-detail.module.css'
 
-function ribbonClass(status: PersonaVersion['status']) {
+const ribbonClass = (status: PersonaVersion['status']) => {
   if (status === 'draft') return [styles.ribbon, styles.ribbonDraft].join(' ')
   if (status === 'published') return [styles.ribbon, styles.ribbonPublished].join(' ')
   return [styles.ribbon, styles.ribbonArchived].join(' ')
 }
 
-function pickLatest(versions: PersonaVersion[]) {
+const pickLatest = (versions: PersonaVersion[]) => {
   const sorted = [...versions].sort((a, b) => b.version - a.version)
   const published = sorted.find((v) => v.status === 'published') ?? null
   const draft = sorted.find((v) => v.status === 'draft') ?? null
   return { sorted, published, draft }
 }
 
-export default function PersonaDetailPage() {
+const PersonaDetailPage: React.FC = () => {
   const router = useRouter()
   const { token } = useAuth()
   const personaId = typeof router.query.id === 'string' ? router.query.id : ''
@@ -57,7 +59,7 @@ export default function PersonaDetailPage() {
     void refresh()
   }, [refresh])
 
-  async function createDraft() {
+  const createDraft = async () => {
     if (!token || !personaId) return
     const res = await adminApi.createDraftVersion(token, personaId)
     if (!res.ok) {
@@ -67,7 +69,7 @@ export default function PersonaDetailPage() {
     await refresh()
   }
 
-  async function toggleVisible() {
+  const toggleVisible = async () => {
     if (!token || !personaId || !persona) return
     if (togglingVisible) return
     setError(null)
@@ -167,3 +169,5 @@ export default function PersonaDetailPage() {
     </div>
   )
 }
+
+export default PersonaDetailPage

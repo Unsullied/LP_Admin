@@ -1,27 +1,31 @@
-import { Button } from '@/components/ui/button'
-import type { PersonaVersion } from '@/lib/admin-api'
-import ui from '@/styles/ui.module.css'
+import type React from 'react'
 
-function toMultiline(items: string[] | null | undefined): string {
+import { Button } from '@/components/ui/button'
+import ui from '@/styles/ui.module.css'
+import type { PersonaVersion } from '@/types/admin'
+
+type ReadOnlyVersionViewerProps = {
+  version: PersonaVersion
+  existingDraftId: string | null
+  checkingDraft: boolean
+  creatingDraft: boolean
+  onCreateOrOpenDraft: () => void
+}
+
+const toMultiline = (items: string[] | null | undefined): string => {
   return (items ?? [])
     .map((s) => String(s ?? '').trim())
     .filter(Boolean)
     .join('\n')
 }
 
-export function ReadOnlyVersionViewer({
+export const ReadOnlyVersionViewer: React.FC<ReadOnlyVersionViewerProps> = ({
   version,
   existingDraftId,
   checkingDraft,
   creatingDraft,
   onCreateOrOpenDraft,
-}: {
-  version: PersonaVersion
-  existingDraftId: string | null
-  checkingDraft: boolean
-  creatingDraft: boolean
-  onCreateOrOpenDraft: () => void
-}) {
+}) => {
   const hint =
     version.status === 'published'
       ? 'Published versions are read-only. Create a draft to edit, then publish when ready.'

@@ -9,9 +9,13 @@ import { clearSessionToken, getSessionToken, setSessionToken } from '@/lib/sessi
 import type { AuthUser } from '@/types/auth'
 import type { AuthContextValue } from '@/types/auth-context'
 
+type AuthProviderProps = {
+  children: React.ReactNode
+}
+
 const AuthContext = createContext<AuthContextValue | null>(null)
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [ready, setReady] = useState(() => typeof window !== 'undefined')
   const [token, setToken] = useState<string | null>(() => getSessionToken())
   const [user, setUser] = useState<AuthUser | null>(null)
@@ -75,7 +79,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 
-export function useAuth() {
+export const useAuth = () => {
   const ctx = useContext(AuthContext)
   if (!ctx) throw new Error('useAuth must be used within AuthProvider')
   return ctx

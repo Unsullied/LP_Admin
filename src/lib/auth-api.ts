@@ -3,9 +3,9 @@ import type { AuthUser as AuthedUser } from '@/types/auth'
 import { getApiBase } from './api-base'
 import type { ApiResult } from './api-result'
 
-export async function requestOtp(
+export const requestOtp = async (
   phone: string,
-): Promise<ApiResult<{ phoneE164: string; message: string }>> {
+): Promise<ApiResult<{ phoneE164: string; message: string }>> => {
   try {
     const res = await fetch(`${getApiBase()}/auth/otp/request`, {
       method: 'POST',
@@ -28,10 +28,10 @@ export async function requestOtp(
   }
 }
 
-export async function verifyOtp(params: {
+export const verifyOtp = async (params: {
   phone: string
   code: string
-}): Promise<ApiResult<{ token: string; user: AuthedUser }>> {
+}): Promise<ApiResult<{ token: string; user: AuthedUser }>> => {
   try {
     const res = await fetch(`${getApiBase()}/auth/otp/verify`, {
       method: 'POST',
@@ -76,7 +76,7 @@ export async function verifyOtp(params: {
   }
 }
 
-export async function me(token: string): Promise<ApiResult<{ user: AuthedUser }>> {
+export const me = async (token: string): Promise<ApiResult<{ user: AuthedUser }>> => {
   try {
     const res = await fetch(`${getApiBase()}/auth/me`, {
       headers: { authorization: `Bearer ${token}` },
@@ -114,7 +114,7 @@ export async function me(token: string): Promise<ApiResult<{ user: AuthedUser }>
   }
 }
 
-export async function logout(token: string): Promise<void> {
+export const logout = async (token: string): Promise<void> => {
   try {
     await fetch(`${getApiBase()}/auth/logout`, {
       method: 'POST',

@@ -3,11 +3,11 @@ import type { CreatePersonaInput, Persona, PersonaVersion } from '@/types/admin'
 import { getApiBase } from './api-base'
 import type { ApiResult } from './api-result'
 
-async function authHeaders(token: string): Promise<Record<string, string>> {
+const authHeaders = async (token: string): Promise<Record<string, string>> => {
   return token ? { authorization: `Bearer ${token}` } : {}
 }
 
-async function getJson<T>(token: string, path: string): Promise<ApiResult<T>> {
+const getJson = async <T>(token: string, path: string): Promise<ApiResult<T>> => {
   try {
     const res = await fetch(`${getApiBase()}${path}`, { headers: await authHeaders(token) })
     const data: unknown = await res.json().catch(() => ({}))
@@ -22,12 +22,12 @@ async function getJson<T>(token: string, path: string): Promise<ApiResult<T>> {
   }
 }
 
-async function sendJson<T>(
+const sendJson = async <T>(
   token: string,
   path: string,
   method: 'POST' | 'PATCH',
   body: unknown,
-): Promise<ApiResult<T>> {
+): Promise<ApiResult<T>> => {
   try {
     const res = await fetch(`${getApiBase()}${path}`, {
       method,
@@ -46,7 +46,7 @@ async function sendJson<T>(
   }
 }
 
-async function deleteJson<T>(token: string, path: string): Promise<ApiResult<T>> {
+const deleteJson = async <T>(token: string, path: string): Promise<ApiResult<T>> => {
   try {
     const res = await fetch(`${getApiBase()}${path}`, {
       method: 'DELETE',

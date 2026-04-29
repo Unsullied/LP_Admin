@@ -4,7 +4,7 @@ import React from 'react'
 
 import styles from './toggle.module.css'
 
-export function Toggle({
+export const Toggle = ({
   checked,
   onChange,
   disabled,
@@ -18,7 +18,7 @@ export function Toggle({
   label?: string
   className?: string
   id?: string
-}) {
+}) => {
   const autoId = React.useId()
   const inputId = id ?? autoId
 

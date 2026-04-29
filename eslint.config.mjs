@@ -2,6 +2,7 @@ import { defineConfig, globalIgnores } from 'eslint/config'
 import nextVitals from 'eslint-config-next/core-web-vitals'
 import nextTs from 'eslint-config-next/typescript'
 import eslintConfigPrettier from 'eslint-config-prettier'
+import reactPlugin from 'eslint-plugin-react'
 import simpleImportSort from 'eslint-plugin-simple-import-sort'
 
 const eslintConfig = defineConfig([
@@ -23,6 +24,7 @@ const eslintConfig = defineConfig([
   ]),
   {
     plugins: {
+      react: reactPlugin,
       'simple-import-sort': simpleImportSort,
     },
     rules: {
@@ -30,6 +32,18 @@ const eslintConfig = defineConfig([
       'simple-import-sort/exports': 'warn',
       // Prefer arrow/function expressions over `function foo() {}` declarations.
       'func-style': ['warn', 'expression'],
+    },
+  },
+  {
+    files: ['**/*.tsx'],
+    rules: {
+      'react/function-component-definition': [
+        'warn',
+        {
+          namedComponents: 'arrow-function',
+          unnamedComponents: 'arrow-function',
+        },
+      ],
     },
   },
 ])

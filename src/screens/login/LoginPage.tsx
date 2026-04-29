@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router'
+import type React from 'react'
 import { useMemo, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -10,7 +11,7 @@ import type { LoginStep } from '@/types/login'
 
 import styles from './login.module.css'
 
-export default function LoginPage() {
+const LoginPage: React.FC = () => {
   const router = useRouter()
   const { signIn } = useAuth()
 
@@ -24,7 +25,7 @@ export default function LoginPage() {
   const phoneDigits = useMemo(() => phone.replace(/\D/g, ''), [phone])
   const isValidPhone = phoneDigits.length === 10
 
-  async function onRequestOtp() {
+  const onRequestOtp = async () => {
     setError(null)
     setInfo(null)
     if (!isValidPhone) {
@@ -45,7 +46,7 @@ export default function LoginPage() {
     }
   }
 
-  async function onVerify() {
+  const onVerify = async () => {
     setError(null)
     setInfo(null)
     if (!isValidPhone) {
@@ -142,3 +143,5 @@ export default function LoginPage() {
     </div>
   )
 }
+
+export default LoginPage

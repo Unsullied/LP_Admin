@@ -1,5 +1,9 @@
+import type React from 'react'
+
 import AdminHomePage from '@/screens/admin/AdminHomePage'
 
-export default function AdminRoute() {
+const AdminRoute: React.FC = () => {
   return <AdminHomePage />
 }
+
+export default AdminRoute

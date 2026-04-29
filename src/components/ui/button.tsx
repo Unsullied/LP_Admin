@@ -4,13 +4,13 @@ import React from 'react'
 
 import styles from './button.module.css'
 
-export function Button({
+export const Button = ({
   variant = 'default',
   className,
   ...props
 }: React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: 'default' | 'primary'
-}) {
+}) => {
   return (
     <button
       {...props}

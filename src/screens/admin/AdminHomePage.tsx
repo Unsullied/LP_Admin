@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import type React from 'react'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -11,7 +12,7 @@ import ui from '@/styles/ui.module.css'
 
 import styles from './admin.module.css'
 
-export default function AdminHomePage() {
+const AdminHomePage: React.FC = () => {
   const router = useRouter()
   const { ready, token, user, isAuthenticated, signOut } = useAuth()
 
@@ -121,3 +122,5 @@ export default function AdminHomePage() {
     </div>
   )
 }
+
+export default AdminHomePage

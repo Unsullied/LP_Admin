@@ -1,21 +1,23 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import { useRouter } from 'next/router'
+import type React from 'react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/contexts/auth-context'
-import { adminApi, type PersonaVersion } from '@/lib/admin-api'
+import { adminApi } from '@/lib/admin-api'
 import { DraftVersionEditor } from '@/modules/admin/versions/DraftVersionEditor'
 import { parseLines } from '@/modules/admin/versions/helpers'
 import { ReadOnlyVersionViewer } from '@/modules/admin/versions/ReadOnlyVersionViewer'
 import ui from '@/styles/ui.module.css'
+import { PersonaVersion } from '@/types/admin'
 
-function paramToString(v: string | string[] | undefined): string {
+const paramToString = (v: string | string[] | undefined): string => {
   if (v == null) return ''
   return Array.isArray(v) ? (v[0] ?? '') : v
 }
 
-export default function PersonaVersionPage() {
+const PersonaVersionPage: React.FC = () => {
   const router = useRouter()
   const { token } = useAuth()
   const id = paramToString(router.query.versionId as string | string[] | undefined)
@@ -234,7 +236,7 @@ export default function PersonaVersionPage() {
     return () => clearInterval(handle)
   }, [canEdit, id, saveDraft])
 
-  async function publish() {
+  const publish = async () => {
     if (!token || !id || !canEdit) return
     setSaving(true)
     setError(null)
@@ -244,7 +246,7 @@ export default function PersonaVersionPage() {
     setSaving(false)
   }
 
-  async function createDraftToEdit() {
+  const createDraftToEdit = async () => {
     if (!token || !version?.personaId) return
     if (existingDraftId) {
       void router.replace(`/admin/versions/${existingDraftId}`)
@@ -263,7 +265,7 @@ export default function PersonaVersionPage() {
     void router.replace(`/admin/versions/${newId}`)
   }
 
-  function confirmDeleteDraft() {
+  const confirmDeleteDraft = () => {
     if (!id || !version?.personaId || !canEdit) return
     const ok =
       typeof window !== 'undefined' &&
@@ -273,7 +275,7 @@ export default function PersonaVersionPage() {
     if (ok) void deleteDraft()
   }
 
-  async function deleteDraft() {
+  const deleteDraft = async () => {
     if (!token || !id || !version?.personaId) return
     setDeleting(true)
     setError(null)
@@ -381,3 +383,5 @@ export default function PersonaVersionPage() {
     </div>
   )
 }
+
+export default PersonaVersionPage
