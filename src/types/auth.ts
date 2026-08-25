@@ -9,4 +9,5 @@ export type AuthUser = {
   gender?: string | null
   fantasy?: string | null
   languageIds?: string[]
+  avatarId?: string | null
 }
